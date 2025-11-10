@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Simulación de Cafetería - Nahomi Salazar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🏪 Sistema de Simulación de Cafetería</h1>
+                <p class="subtitle">Modelo de Colas M/M/c con Análisis Estadístico e IA</p>
+                <div class="author-info">
+                    <p><strong>Estudiante:</strong> Nahomi Salazar Loredo</p>
+                    <p><strong>Docente:</strong> MSc. Irene Martínez Mejía</p>
+                    <p><strong>Curso:</strong> Simulación de Sistemas | <strong>Fecha:</strong> 19/10/2025</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Control Panel -->
+            <section class="panel control-panel">
+                <h2>⚙️ Parámetros de Simulación</h2>
+                <form id="simulationForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="arrival_rate">
+                                <span class="label-icon">👥</span>
+                                Tasa de Llegada (λ)
+                                <span class="tooltip">Clientes por minuto</span>
+                            </label>
+                            <input type="number" id="arrival_rate" name="arrival_rate" 
+                                   value="2.0" min="0.1" max="10" step="0.1" required>
+                            <small>Clientes/minuto (ej: 2.0 = 120 clientes/hora)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="service_rate">
+                                <span class="label-icon">⚡</span>
+                                Tasa de Servicio (μ)
+                                <span class="tooltip">Por servidor</span>
+                            </label>
+                            <input type="number" id="service_rate" name="service_rate" 
+                                   value="3.0" min="0.1" max="10" step="0.1" required>
+                            <small>Clientes/minuto por servidor</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="num_servers">
+                                <span class="label-icon">🧑‍🍳</span>
+                                Número de Servidores (c)
+                            </label>
+                            <input type="number" id="num_servers" name="num_servers" 
+                                   value="2" min="1" max="10" step="1" required>
+                            <small>Cajeros/cocineros disponibles</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sim_time">
+                                <span class="label-icon">⏱️</span>
+                                Tiempo de Simulación
+                            </label>
+                            <input type="number" id="sim_time" name="sim_time" 
+                                   value="480" min="60" max="1440" step="60" required>
+                            <small>Minutos (480 = 8 horas)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="queue_capacity">
+                                <span class="label-icon">📊</span>
+                                Capacidad de Cola
+                            </label>
+                            <input type="number" id="queue_capacity" name="queue_capacity" 
+                                   value="50" min="10" max="200" step="10" required>
+                            <small>Máximo de clientes en espera</small>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary" id="runSimBtn">
+                            <span class="btn-icon">▶️</span> Ejecutar Simulación
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="optimizeBtn">
+                            <span class="btn-icon">🎯</span> Optimizar Sistema
+                        </button>
+                        <button type="button" class="btn btn-info" id="resetBtn">
+                            <span class="btn-icon">🔄</span> Reiniciar
+                        </button>
+                    </div>
+                </form>
+
+                <div id="loadingIndicator" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Ejecutando simulación...</p>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <div id="resultsSection" style="display: none;">
+                <!-- Key Metrics -->
+                <section class="panel metrics-panel">
+                    <h2>📈 Métricas Principales</h2>
+                    <div class="metrics-grid" id="metricsGrid">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Charts -->
+                <section class="panel charts-panel">
+                    <h2>📊 Visualización de Resultados</h2>
+                    <div class="charts-grid">
+                        <div class="chart-container">
+                            <h3>Distribución de Tiempos de Espera</h3>
+                            <canvas id="waitTimeChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Longitud de Cola en el Tiempo</h3>
+                            <canvas id="queueLengthChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Distribución de Tiempos de Servicio</h3>
+                            <canvas id="serviceTimeChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Predicción de Demanda (IA)</h3>
+                            <canvas id="predictionChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Statistical Analysis -->
+                <section class="panel stats-panel">
+                    <h2>📐 Análisis Estadístico</h2>
+                    <div id="statisticalAnalysis">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- AI Insights -->
+                <section class="panel ai-panel">
+                    <h2>🤖 Análisis con Inteligencia Artificial</h2>
+                    <div id="aiInsights">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Recommendations -->
+                <section class="panel recommendations-panel">
+                    <h2>💡 Recomendaciones del Sistema</h2>
+                    <div id="recommendations">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2025 Sistema de Simulación de Cafetería | Examen de Suficiencia - Simulación de Sistemas</p>
+            <p>Desarrollado por: Nahomi Salazar Loredo | Docente: MSc. Irene Martínez Mejía</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
