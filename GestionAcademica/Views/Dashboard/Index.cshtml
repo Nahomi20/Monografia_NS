@@ -2,9 +2,349 @@
     ViewData["Title"] = "Dashboard Principal";
 }
 
+@* 
+Pseudocódigo / Plan:
+- Mantener "Next events" en la barra lateral (col-xl-3).
+- Mover "To do list" y "Progress track" debajo del calendario, lado a lado (en col-xl-9).
+- Asegurar cierres correctos y accesibilidad mínima.
+*@
+
 <div class="text-center">
     <h1 class="display-4">Bienvenido Usuario</h1>
-    <p>Hoy es @DateTime.Now.ToString("dddd dd 'del año' yyyy")</p>
-    <p>YO SOY EL DASHBOARD</p>
+    <p>Hoy es @DateTime.Now.ToString("dddd, dd 'de' MMMM 'de' yyyy", new System.Globalization.CultureInfo("es-ES"))</p>
 </div>
 
+<div class="container-fluid py-4">
+    <div class="row mb-lg-7">
+        <div class="col-12 ms-auto">
+            <div class="d-flex mb-4">
+                <div class="pe-4 mt-1 position-relative ms-auto">
+                    <div class="d-flex align-items-center justify-content-center">
+                        @* Espacio para futuros elementos *@
+                    </div>
+                    <hr class="vertical light mt-0" />
+                </div>
+                <div class="ps-4">
+                    @* Acciones rápidas *@
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-9">
+            <div class="card card-calendar">
+                <div class="card-body p-3">
+                    <div class="calendar" data-bs-toggle="calendar" id="calendar"></div>
+                </div>
+            </div>
+
+            @* Debajo del calendario: To do list y Progress track lado a lado *@
+            <div class="row mt-4">
+                <!-- To do list -->
+                <div class="col-12 col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5 class="mb-0 text-capitalize">Asignaciones Pendientes</h5>
+                        </div>
+                        <div class="card-body pt-0">
+                            <ul class="list-group list-group-flush" data-toggle="checklist">
+                                <li class="checklist-entry list-group-item px-0">
+                                    <div class="checklist-item checklist-item-success checklist-item-checked d-flex">
+                                        <div class="checklist-info">
+                                            <h6 class="checklist-title mb-0">Tarea 7</h6>
+                                            <small class="text-xs">09:30 AM</small>
+                                        </div>
+                                        <div class="form-check my-auto ms-auto">
+                                            <input class="form-check-input" type="checkbox" id="todoCheck1" checked aria-label="Call with Dave">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="checklist-entry list-group-item px-0">
+                                    <div class="checklist-item checklist-item-warning d-flex">
+                                        <div class="checklist-info">
+                                            <h6 class="checklist-title mb-0">Tarea 8</h6>
+                                            <small class="text-xs">11:00 AM</small>
+                                        </div>
+                                        <div class="form-check my-auto ms-auto">
+                                            <input class="form-check-input" type="checkbox" id="todoCheck2" aria-label="Brunch Meeting">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="checklist-entry list-group-item px-0">
+                                    <div class="checklist-item checklist-item-info d-flex">
+                                        <div class="checklist-info">
+                                            <h6 class="checklist-title mb-0">Tarea 10</h6>
+                                            <small class="text-xs">02:00 PM</small>
+                                        </div>
+                                        <div class="form-check my-auto ms-auto">
+                                            <input class="form-check-input" type="checkbox" id="todoCheck3" aria-label="Argon Dashboard Launch">
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="checklist-entry list-group-item px-0">
+                                    <div class="checklist-item checklist-item-danger checklist-item-checked d-flex">
+                                        <div class="checklist-info">
+                                            <h6 class="checklist-title mb-0">Tarea 9</h6>
+                                            <small>10:30 AM</small>
+                                        </div>
+                                        <div class="form-check my-auto ms-auto">
+                                            <input class="form-check-input" type="checkbox" id="todoCheck4" checked aria-label="Winter Hackaton">
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress track -->
+                <div class="col-12 col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h5 class="mb-0 text-capitalize text-start">Progreso de clases</h5>
+                        </div>
+                        <div class="card-body pt-0">
+                            <ul class="list-group list-group-flush list">
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-center text-start">
+                                        <div class="col-auto">
+                                            <a href="javascript:;" class="avatar rounded-circle" aria-label="Programacion WEB">
+                                                <img alt="React logo" src="../../assets/img/small-logos/logo-jira.svg" />
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <h6 class="mb-1">Introduccion a la ingenieria</h6>
+                                            <div class="progress progress-xs mb-0">
+                                                <div class="progress-bar bg-primary" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-center text-start">
+                                        <div class="col-auto">
+                                            <a href="javascript:;" class="avatar rounded-circle" aria-label="Proyecto Argon Design System">
+                                                <img alt="Asana logo" src="../../assets/img/small-logos/logo-asana.svg" />
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <h6 class="mb-1">Desarrollo Web</h6>
+                                            <div class="progress progress-xs mb-0">
+                                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-center text-start">
+                                        <div class="col-auto">
+                                            <a href="javascript:;" class="avatar rounded-circle" aria-label="Proyecto VueJs Now UI Kit PRO">
+                                                <img alt="Spotify logo" src="../../assets/img/small-logos/logo-spotify.svg"/>
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <h6 class="mb-1">Inteligencia Artificial</h6>
+                                            <div class="progress progress-xs mb-0">
+                                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-center text-start">
+                                        <div class="col-auto">
+                                            <a href="javascript:;" class="avatar rounded-circle" aria-label="Proyecto Soft UI Dashboard">
+                                                <img alt="Bootstrap logo" src="../../assets/img/small-logos/bootstrap.svg" />
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <h6 class="mb-1">Programacion en MVC</h6>
+                                            <div class="progress progress-xs mb-0">
+                                                <div class="progress-bar bg-gradient-primary" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="width: 72%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- .row debajo del calendario -->
+        </div>
+
+        <div class="col-xl-3">
+            <div class="row">
+                <!-- Next events (sidebar solamente) -->
+                <div class="col-12 mb-4">
+                    <div class="card">
+                        <div class="card-header p-3 pb-0">
+                            <h6 class="mb-0">Siguientes Eventos</h6>
+                        </div>
+                        <div class="card-body border-radius-lg p-3">
+                            <div class="d-flex">
+                                <div>
+                                    <div class="icon icon-shape bg-danger-soft text-center border-radius-md">
+                                        <i class="ni ni-money-coins text-lg text-danger text-gradient opacity-10" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <div class="numbers">
+                                        <h6 class="mb-1 text-dark text-sm">Tarea 5</h6>
+                                        <span class="text-sm">07 Febrero 2026, at 12:30 PM</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex mt-4">
+                                <div>
+                                    <div class="icon icon-shape bg-primary-soft text-center border-radius-md">
+                                        <i class="ni ni-bell-55 text-lg text-primary text-gradient opacity-10" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <div class="numbers">
+                                        <h6 class="mb-1 text-dark text-sm">Tarea 1</h6>
+                                        <span class="text-sm">07 Febrero 2026, at 10:00 PM</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex mt-4">
+                                <div>
+                                    <div class="icon icon-shape bg-success-soft text-center border-radius-md">
+                                        <i class="ni ni-books text-lg text-success text-gradient opacity-10" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <div class="numbers">
+                                        <h6 class="mb-1 text-dark text-sm">Tarea 2</h6>
+                                        <span class="text-sm">07 Febrero 2026, at 9:30 AM</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex mt-4">
+                                <div>
+                                    <div class="icon icon-shape bg-warning-soft text-center border-radius-md">
+                                        <i class="ni ni-delivery-fast text-lg text-warning text-gradient opacity-10" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <div class="numbers">
+                                        <h6 class="mb-1 text-dark text-sm">Tarea 3</h6>
+                                        <span class="text-sm">07 Febrero 2026, at 2:00 PM</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex mt-4">
+                                <div>
+                                    <div class="icon icon-shape bg-info-soft text-center border-radius-md">
+                                        <i class="ni ni-palette text-lg text-info text-gradient opacity-10" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="ms-3">
+                                    <div class="numbers">
+                                        <h6 class="mb-1 text-dark text-sm">Tarea 4</h6>
+                                        <span class="text-sm">07 Febrero 2026, at 9:00 AM</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- .row sidebar -->
+        </div> <!-- .col-xl-3 -->
+
+    </div> <!-- .row -->
+</div> <!-- .container-fluid -->
+
+<!--   Core JS Files   -->
+<script src="../../assets/js/core/popper.min.js"></script>
+<script src="../../assets/js/core/bootstrap.min.js"></script>
+<script src="../../assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="../../assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="../../assets/js/plugins/fullcalendar.min.js"></script>
+<!-- Kanban scripts -->
+<script src="../../assets/js/plugins/dragula/dragula.min.js"></script>
+<script src="../../assets/js/plugins/jkanban/jkanban.js"></script>
+<script src="../../assets/js/plugins/chartjs.min.js"></script>
+<script>
+    var calendar = new FullCalendar.Calendar(document.getElementById("calendar"), {
+        contentHeight: 'auto',
+        initialView: "dayGridMonth",
+        headerToolbar: {
+            start: 'title',
+            center: '',
+            end: 'today prev,next'
+        },
+        selectable: true,
+        editable: true,
+        initialDate: '2026-02-01',
+        events: [
+            { title: 'Entrega de Avance de Monografia', start: '2026-01-30', end: '2026-01-30', className: 'bg-gradient-danger' },
+            { title: '1er Examen de Programacion WEB', start: '2026-01-31', end: '2026-01-31', className: 'bg-gradient-warning' },
+            { title: 'Presentacion de Monografia', start: '2026-02-07', end: '2026-02-07', className: 'bg-gradient-success' },
+            { title: 'Entrega de Documetacion', start: '2026-02-03', end: '2026-02-05', className: 'bg-gradient-info' },
+            { title: 'Winter Hackaton', start: '2021-12-03', end: '2021-12-03', className: 'bg-gradient-danger' },
+            { title: 'Digital event', start: '2021-12-07', end: '2021-12-09', className: 'bg-gradient-warning' },
+            { title: 'Marketing event', start: '2021-12-10', end: '2021-12-10', className: 'bg-gradient-primary' },
+            { title: 'Dinner with Family', start: '2021-12-19', end: '2021-12-19', className: 'bg-gradient-danger' },
+            { title: 'Black Friday', start: '2021-12-23', end: '2021-12-23', className: 'bg-gradient-info' },
+            { title: 'Cyber Week', start: '2021-12-02', end: '2021-12-02', className: 'bg-gradient-warning' }
+        ],
+        views: {
+            month: { titleFormat: { month: "long", year: "numeric" } },
+            agendaWeek: { titleFormat: { month: "long", year: "numeric", day: "numeric" } },
+            agendaDay: { titleFormat: { month: "short", year: "numeric", day: "numeric" } }
+        }
+    });
+
+    calendar.render();
+
+    var ctx1 = document.getElementById("chart-line-1") ? document.getElementById("chart-line-1").getContext("2d") : null;
+    if (ctx1) {
+        var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
+        gradientStroke1.addColorStop(1, 'rgba(255,255,255,0.3)');
+        gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+        gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)');
+
+        new Chart(ctx1, {
+            type: "line",
+            data: {
+                labels: ["Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+                datasets: [{
+                    label: "Visitantes",
+                    tension: 0.5,
+                    borderWidth: 0,
+                    pointRadius: 0,
+                    borderColor: "#fff",
+                    borderWidth: 2,
+                    backgroundColor: gradientStroke1,
+                    data: [50, 45, 60, 60, 80, 65, 90, 80, 100],
+                    maxBarThickness: 6,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                interaction: { intersect: false, mode: 'index' },
+                scales: {
+                    y: {
+                        grid: { drawBorder: false, display: false, drawOnChartArea: false, drawTicks: false },
+                        ticks: { display: false }
+                    },
+                    x: {
+                        grid: { drawBorder: false, display: false, drawOnChartArea: false, drawTicks: false },
+                        ticks: { display: false }
+                    }
+                }
+            }
+        });
+    }
+</script>
